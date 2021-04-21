@@ -1,0 +1,56 @@
+.links line {
+    stroke: rgb(114, 109, 109); 
+    stroke-opactity: 0.2;
+}
+
+/* .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
+
+.texts text {
+    display: none;
+} */
+/* body {
+background-color: #fafafa;
+padding: 30px 40px;
+text-align: center;
+font-family: OpenSans-Light, PingFang SC, Hiragino Sans GB, Microsoft Yahei, Microsoft Jhenghei, sans-serif;
+} */
+/* 
+#indicator {
+position: absolute; 
+left: 60px;
+bottom: 120px;
+text-align: left;
+color: #f2f2f2;
+font-size: 12px;
+}
+
+#indicator>div {
+margin-bottom: 4px;
+}
+
+#indicator span {
+display: inline-block;
+width: 30px;
+height: 14px;
+position: relative;
+top: 2px;
+margin-right: 8px;
+} */
+.link {  
+    fill: none;  stroke: rgb(179, 179, 179);  
+    stroke-width: 1.5px;}
+    #licensing {  
+        fill: rgb(247, 247, 247);}
+    .link.licensing {  
+        stroke: green;}.link.resolved 
+        {  stroke-dasharray: 0,2 1;}
+        circle {  
+            /* fill: #b3d38c;  */
+            fill: #7f9bda;
+            stroke: rgb(105, 104, 104);  stroke-width: 1px;}
+        text {  font: 15px Microsoft YaHei; font-weight: 300;color: rgb(117, 115, 115); pointer-events: none;  
+        text-shadow: 0 0.5px 0 #fff, 0.5px 0 0 #fff, 0 -0.5px 0 #fff, -0.5px 0 0 #fff;
+        }.linetext {    font-size: 12px Microsoft YaHei;}

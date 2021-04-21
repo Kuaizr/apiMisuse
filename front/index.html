@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>KGgogogo</title>
+  <!-- 代码高亮 -->
+  <link rel="stylesheet" href="./assets/highlight/styles/arta.css">
+  <!-- <link rel="stylesheet" href="./assets/highlight/styles/agate.css"> -->
+
+  <script src="./assets/highlight/highlight.pack.js"></script>
+  <script>hljs.highlightAll();</script>
+  <!-- bootstrap -->
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="./assets/css/bootstrap-v4.1.3.min.css">
+  <!-- 知识图谱 -->
+  <link rel="stylesheet" href="./assets/css/d3.css">
+  <!-- 其他css -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="./assets/css/flaticon.css">
+  <link rel="stylesheet" href="./assets/css/style2.css">
+
+</head>
+
+<body>
+  <section class="blog-details-page pt-125 pb-120" style="background-color: #F5f4f4;">
+    <div class="container">
+      <div class="row" style="margin-bottom: 20px;">
+        <div class="col-lg-8 " style="margin:auto;">
+          <div class="widget widget_search" style="margin-bottom: 20px;">
+            <form action="http://8.135.2.4/api" method="get" _lpchecked="1">
+              <input type="text" name="value" placeholder="Search...." required="">
+              <button type="submit"><i class="flaticon-search"></i></button>
+            </form>
+          </div>
+          <div class="tags">
+            <span> 相关搜索：</span>
+            <a href="http://8.135.2.4/tag?tag=s-c">state-checking</a>
+            <a href="http://8.135.2.4/tag?tag=sy-c">synchronized-checking</a>
+            <a href="http://8.135.2.4/tag?tag=c-o">call-order</a>
+            <a href="http://8.135.2.4/tag?tag=trigger">trigger</a>
+            <a href="http://8.135.2.4/tag?tag=d-c">duplicate-checking</a>
+          </div>
+        </div>
+      </div>
+      <div class="blog-item row kg">
+        {{each Info value key}}
+        <div class="col-lg-12">
+          <p class="widget-title ">API：{{value.package}}.{{value.class}}.{{value.method}}</p>
+        </div>
+        
+        <div class="col-lg-6 ">
+          <a class="pull-left" style="margin-left: 10px;"><b>{{value.begin}}</b> and <b>{{value.end}}</b> have a <b>{{value.type}}</b> type constraint relationship</a>
+        </div>
+        <div class="col-lg-6 pad0">
+          <a class="pull-left"><b>{{value.count}}</b> Github code examples has the same pattern, here are <b>5</b> correct examples</a>
+        </div>
+        <div class="row api-list">
+          <div class="col-lg-5 pad0">
+            <div class=" blog-content " height="400">
+              <div class="kg" height="300">
+                <div class="name-date " style="height: 40px;">
+                  <p>误用类型:<span class="date"><b>{{value.type}}</b></span></p>
+                </div>
+                <!-- 图谱 -->
+                {{if key == 0}}
+                <svg width="400" height="200" id="svg1">
+                </svg>
+                {{else}}
+                <svg width="400" height="200" id="svg2">
+                </svg>
+                {{/if}}
+        
+                <div class="node-info " style="height: 25px;">
+                  <p>Begin Node:<span class="date"><b>{{value.begin}}</b></span></p>
+                </div>
+                <div class="node-info " style="height: 25px;">
+                  <p>End Node:<span class="date"><b>{{value.end}}</b></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-1 pad0" style="width: 5px;">
+            <img style="margin-top:100px" src="./assets/icon/未标题-1.png">
+          </div>
+          <div class=" col-lg-6 code pad0">
+            <div class="blog-content">
+              {{if key == 0}}
+              <div id="demo" class="carousel slide" data-ride="carousel">
+              {{else}}
+              <div id="demo1" class="carousel slide" data-ride="carousel">
+              {{/if}}
+                <!-- 轮播 -->
+                <div class="carousel-inner ">
+                  <div class="carousel-item active">
+        
+                    <!-- java代码展示 -->
+                    <pre>{{if key == 0}}<code class="lang-java" id="code1_1">{{else}}<code class="lang-java" id="code2_1">{{/if}}
+{{value.code1}}                            
+                                      </code></pre>
+                  </div>
+                  <div class="carousel-item">
+                    <pre>{{if key == 0}}<code class="lang-java" id="code1_2">{{else}}<code class="lang-java" id="code2_2">{{/if}}
+{{value.code2}}
+                                      </code></pre>
+                  </div>
+                  <div class="carousel-item">
+                    <pre>{{if key == 0}}<code class="lang-java" id="code1_3">{{else}}<code class="lang-java" id="code2_3">{{/if}}
+{{value.code3}}
+                                    </code></pre>
+                  </div>
+                  <div class="carousel-item">
+                    <pre>{{if key == 0}}<code class="lang-java" id="code1_4">{{else}}<code class="lang-java" id="code2_4">{{/if}}
+{{value.code4}}
+                                                        </code></pre>
+                  </div>
+                  <div class="carousel-item">
+                    <pre>{{if key == 0}}<code class="lang-java" id="code1_5">{{else}}<code class="lang-java" id="code2_5">{{/if}}
+{{value.code5}}
+                                                        </code></pre>
+                  </div>
+                </div>
+                {{if key == 0}}
+                <ul class="carousel-indicators ">
+                  <li data-target="#demo" data-slide-to="0" class="active"></li>
+                  <li data-target="#demo" data-slide-to="1"></li>
+                  <li data-target="#demo" data-slide-to="2"></li>
+                  <li data-target="#demo" data-slide-to="3"></li>
+                  <li data-target="#demo" data-slide-to="4"></li>
+                </ul>
+                {{else}}
+                <ul class="carousel-indicators ">
+                  <li data-target="#demo1" data-slide-to="0" class="active"></li>
+                  <li data-target="#demo1" data-slide-to="1"></li>
+                  <li data-target="#demo1" data-slide-to="2"></li>
+                  <li data-target="#demo1" data-slide-to="3"></li>
+                  <li data-target="#demo1" data-slide-to="4"></li>
+                </ul>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+
+
+        <!--  分页框 -->
+        <ul id="pageUl" class="pagination d-inline-block">
+
+        </ul>
+
+      </div>
+    </div>
+  </section>
+  <div id="codeList" style="display: none;">{"url":{{url}}}</div>
+  <div id="pageInfo" style="display: none;">{"pageInfo":{{pageInfo}}}</div>
+  <div id="imgData" style="display: none;">{"imgData":{{imgData}}}</div>
+</body>
+
+<!-- 增加D3元素库 -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<!-- 补充JS代码 -->
+<script type="text/javascript">
+
+  //代码列表
+  var str = document.getElementById('codeList').innerText
+  var codeList = JSON.parse(str).url
+  var nodeList = [
+      {
+        "links":
+          [
+            { "source": "getNullText", "value": 9, "target": "length()", "relation": "NullPointerException" },
+          ],
+        "nodes": [{ "id": "getNullText", "size": 16, "group": 1, "class": "film" },
+        { "id": "length()", "size": 17, "group": 1, "class": "film" },
+        ]
+      },
+      {
+        "links":
+          [
+            { "source": "getNullText", "value": 9, "target": "length()", "relation": "NullPointerException" },
+          ],
+        "nodes": [{ "id": "getNullText", "size": 16, "group": 1, "class": "film" },
+        { "id": "length()", "size": 17, "group": 1, "class": "film" },
+        ]
+      },
+    ]
+  //图片参数
+  var imgData = JSON.parse(document.getElementById('imgData').innerText).imgData.tempImgData
+  for(let l = 0;l < imgData.length; l++){
+    nodeList[l].links[0].source = imgData[l].begin
+    nodeList[l].links[0].relation = imgData[l].type
+    nodeList[l].links[0].target = imgData[l].end
+    nodeList[l].nodes[0].id = imgData[l].begin
+    nodeList[l].nodes[1].id = imgData[l].end
+  }
+
+  //动态分页
+  var str2 = document.getElementById('pageInfo').innerText
+  var page = JSON.parse(str2).pageInfo
+  var urlOfnow = (window.location.href).split("page=")[0]
+  if(urlOfnow == "http://8.135.2.4/"){
+    urlOfnow = urlOfnow + "?"
+  }
+  if(!urlOfnow.endsWith('?') && !urlOfnow.endsWith('&')){
+    console.log("xss")
+    urlOfnow = urlOfnow + "&"
+  }
+  var ul = document.getElementById("pageUl")
+  var templi;
+  var tempA;
+  //添加首页
+  templi = document.createElement('li');
+  tempA = document.createElement('a');
+  tempA.setAttribute("href", urlOfnow + "page=1")
+  tempA.innerHTML = `<<-`
+  templi.appendChild(tempA)
+  ul.appendChild(templi)
+  //添加当前页的左右三个li
+  if(page.page >= 2){
+    templi = document.createElement('li');
+    tempA = document.createElement('a');
+    tempA.setAttribute("href", urlOfnow + "page=" + (page.page-1))
+    tempA.innerHTML = (page.page - 1)
+    templi.appendChild(tempA)
+    ul.appendChild(templi)
+  }
+  templi = document.createElement('li');
+  templi.setAttribute("class", "current")
+  tempA = document.createElement('a');
+  tempA.setAttribute("href", urlOfnow + "page=" + (page.page))
+  tempA.innerHTML = (page.page)
+  templi.appendChild(tempA)
+  ul.appendChild(templi)
+  if (page.page < page.maxPage) {
+      templi = document.createElement('li');
+      tempA = document.createElement('a');
+      tempA.setAttribute("href", urlOfnow + "page=" + (page.page + 1))
+      tempA.innerHTML = (page.page + 1)
+      templi.appendChild(tempA)
+      ul.appendChild(templi)
+  }
+  //添加尾页
+  templi = document.createElement('li');
+  tempA = document.createElement('a');
+  tempA.setAttribute("href", urlOfnow + "page=" + page.maxPage)
+  tempA.innerHTML = `->>`
+  templi.appendChild(tempA)
+  ul.appendChild(templi)
+
+
+    $(function () {
+      $('#carousel-example-generic').carousel({
+        interval: 5000,
+      });
+    });
+    $(document).ready(function () {
+      //定义name变量制作图标
+      var names = ['Films', 'Characters', 'Planets', 'Starships', 'Vehicles', 'Species'];
+      var colors = ['#b3d38c', '#b3d38c', '#b3d38c', '#b3d38c', '#b3d38c', '#b3d38c'];
+
+      //定义svg变量将布局svg1选出来 
+      for (let k = 1; k <= 2; k++) {
+        let id = '#svg' + k;
+        let svg = d3.select(id),
+          width = svg.attr("width"),
+          height = svg.attr("height");
+
+        //背景颜色设置 补充CSS样式设置字体布局
+        for (var i = 0; i < names.length; i++) {
+          $('#indicator').append("<div><span style='background-color:" + colors[i] + "'></span>" + names[i] + "</div>");
+        }
+
+        //利用d3.forceSimulation()定义关系图 包括设置边link、排斥电荷charge、关系图中心点
+        let simulation = d3.forceSimulation()
+          .force("link", d3.forceLink().id(function (d) {
+            return d.id;
+          }))
+          .force("charge", d3.forceManyBody())
+          .force("center", d3.forceCenter(width / 2, height / 2));
+
+        simulation.force('charge')
+          .strength(-10500) // 排斥力强度，正值相互吸引，负值相互排斥
+        //存储关系图的数据
+        let graph;
+        //定义d3.json请求python处理好的节点及边
+        graph = nodeList[k - 1];
+
+        let link = svg.append("g").attr("class", "links").selectAll("line").data(graph.links).enter()
+          .append("line").attr("stroke-width", function (d) {
+            return 1;
+          });
+
+        let node = svg.append("g").attr("class", "nodes").selectAll("circle").data(graph.nodes).enter()
+          .append("circle").attr("r", function (d) {
+            return d.size;
+          }).attr("fill", function (d) {
+            return colors[d.group];
+          }).attr("stroke", "none").attr("name", function (d) {
+            return d.id;
+          }).call(d3.drag()
+            .on("start", function (d) {
+              if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+              d.fx = d.x;
+              d.fy = d.y;
+            })
+            .on("drag", function (d) {
+              d.fx = d3.event.x;
+              d.fy = d3.event.y;
+            })
+            .on("end", function (d) {
+              if (!d3.event.active) simulation.alphaTarget(0);
+              d.fx = null;
+              d.fy = null;
+            })
+          );
+
+        let text = svg.append("g").attr("class", "texts").selectAll("text").data(graph.nodes)
+          .enter()
+          .append("text").attr("font-size", function (d) {
+            return "100px";
+          }).attr("fill", function (d) {
+            return "#222222";
+          }).attr('name', function (d) {
+            return d.id;
+          }).text(function (d) {
+            return d.id;
+          }).attr('text-anchor', 'middle').call(d3.drag()
+            .on("start", function (d) {
+              if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+              d.fx = d.x;
+              d.fy = d.y;
+            })
+            .on("drag", function (d) {
+              d.fx = d3.event.x;
+              d.fy = d3.event.y;
+            })
+            .on("end", function (d) {
+              if (!d3.event.active) simulation.alphaTarget(0);
+              d.fx = null;
+              d.fy = null;
+            })
+          );
+
+
+        let linksText = svg.append("g").append("g").attr("class", "texts")
+          .selectAll("text")
+          .attr("font-size", function (d) {
+            return 20;
+          })
+          .data(graph.links)
+          .enter()
+          .append("text")
+          .style("fill", "#222222")
+          .text(function (d) {
+            return d.relation;
+          });
+
+        //圆增加title
+        node.append("title").text(function (d) {
+          return d.id;
+        })
+
+        //simulation中ticked数据初始化并生成图形
+        simulation
+          .nodes(graph.nodes)
+          .on("tick", function () {
+            link
+              .attr("x1", function (d) {
+                return d.source.x;
+              })
+              .attr("y1", function (d) {
+                return d.source.y;
+              })
+              .attr("x2", function (d) {
+                return d.target.x;
+              })
+              .attr("y2", function (d) {
+                return d.target.y;
+              });
+
+            node
+              .attr("cx", function (d) {
+                return d.x;
+              })
+              .attr("cy", function (d) {
+                return d.y;
+              });
+
+            text.
+              attr('transform', function (d) {
+                return 'translate(' + d.x + ',' + (d.y + d.size / 2) + ')';
+              });
+
+            linksText
+              .attr("x", function (d) {
+                return (d.source.x + d.target.x) / 2;
+              })
+              .attr("y", function (d) {
+                return (d.source.y + d.target.y) / 2;
+              });
+          });
+
+        simulation.force("link")
+          .links(graph.links);
+      }
+      //ticked()函数确定link线的起始点x、y坐标 node确定中心点 文本通过translate平移变化
+      function ticked() {
+        link
+          .attr("x1", function (d) {
+            return d.source.x;
+          })
+          .attr("y1", function (d) {
+            return d.source.y;
+          })
+          .attr("x2", function (d) {
+            return d.target.x;
+          })
+          .attr("y2", function (d) {
+            return d.target.y;
+          });
+
+        node
+          .attr("cx", function (d) {
+            return d.x;
+          })
+          .attr("cy", function (d) {
+            return d.y;
+          });
+
+        text.
+          attr('transform', function (d) {
+            return 'translate(' + d.x + ',' + (d.y + d.size / 2) + ')';
+          });
+
+        linksText
+          .attr("x", function (d) {
+            return (d.source.x + d.target.x) / 2;
+          })
+          .attr("y", function (d) {
+            return (d.source.y + d.target.y) / 2;
+          });
+      }
+    });
+
+  //添加鼠标点击事件
+  var timmerHandle = null;
+  var isDrag = false;
+  function setDragTrue() {
+    isDrag = true;
+  }
+  for (let i = 0; i < codeList.length; i++) {
+    let urlList = codeList[i];
+
+    for (let j = 0; j < urlList.length; j++) {
+      let id = 'code' + (i + 1) + '_' + (j + 1);
+
+      document.getElementById(id).addEventListener('mousedown', function () {
+        isDrag = false;
+        timmerHandle = setTimeout(setDragTrue, 200)
+      })
+      document.getElementById(id).addEventListener('mouseup', function () {
+        if (!isDrag) {
+          clearTimeout(timmerHandle);
+          window.open(urlList[j]);
+        }
+      })
+    }
+  }
+  
+</script>
+
+</html>

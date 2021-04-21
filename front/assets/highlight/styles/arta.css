@@ -1,0 +1,84 @@
+/*
+Date: 17.V.2011
+Author: pumbur <pumbur@pumbur.net>
+*/
+
+.hljs {
+  display: block;
+  box-shadow: 5px 5px 19px rgb(28 0 175 / 7%);
+
+  overflow-x: auto;
+  height: 300px;
+  width: 700px;
+  padding: 0.5em;
+  background-color: #2a2d3e;
+  /* background: #222; */
+    /* background: rgb(255, 255, 255); */
+    /* background-color: #f8f8f8; */
+  /* font-size: x-small; */
+}
+
+.hljs,
+.hljs-subst {
+  color: rgb(226, 226, 226);
+}
+
+.hljs-section {
+  color: #fff;
+  font-weight: 300;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-meta {
+  color: #444;
+}
+
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-regexp {
+  color: #ffcc33;
+}
+
+.hljs-number,
+.hljs-addition {
+  color: #00cc66;
+}
+
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-link {
+  color: #32aaee;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  /* color: #6644aa; */
+  color: #a892ff;
+}
+
+.hljs-title,
+.hljs-variable,
+.hljs-deletion,
+.hljs-template-tag {
+  color: #c6e99c;
+  font-weight: bold;
+}
+
+.hljs-section,
+.hljs-doctag,
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
