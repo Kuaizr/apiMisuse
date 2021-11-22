@@ -1,0 +1,101 @@
+out : output collection[string] of string;
+varin: string;
+varout: string;
+temp : string;
+code := """public class C {
+	void m(int n) {
+		int j = 0;
+
+		while (n > 0) {
+			if (j % 2 == 0)
+				j++;
+			else
+				j--;
+			n--;
+		}
+		System.out.println("assert 'j is positive'");
+	}
+}""";
+
+tree := parse(code);
+
+type T_gen_kill = { gen: set of string, kill: string };
+
+addString := function(s1:string,s2:string):string{
+    return format("%S,%S",s1,s2);
+};
+addTemp := function(s1:string,s2:string):string{
+    return format("%S%S",s1,s2);
+};
+
+# traversal that gets all variable uses in a method
+genkill := traversal(node: CFGNode): T_gen_kill {
+    return { node.useVariables, node.defVariables };
+};
+
+type T_inout = { in: set of string, out: set of string };
+
+init := traversal(node: CFGNode): T_inout {
+    in_set: set of string;
+    out_set: set of string;
+    val: T_inout = { in_set, out_set };
+    return val;
+};
+
+# cfg live variable analysis
+live := traversal(node: CFGNode): T_inout {
+    cur_val: T_inout;
+    if (def(getvalue(node))) cur_val = getvalue(node);
+    else cur_val = getvalue(node, init);
+    gen_kill := getvalue(node, genkill);
+
+    # update out set
+    succs := node.successors;
+    foreach (i: int; def(succs[i])) {
+        succ := getvalue(succs[i]);
+        if (def(succ)) {
+            cur_val.out = union(cur_val.out, succ.in);
+        }
+    }
+
+    # update in set
+    cur_val.in = clone(cur_val.out);
+    remove(cur_val.in, gen_kill.kill);
+    cur_val.in = union(gen_kill.gen, cur_val.in);
+#    push(varin,string(cur_val.in));
+#    push(varout,string(cur_val.out));
+    temp = addTemp(string(node.id),string(cur_val.in));
+    varin = addString(varin,temp);
+    temp = addTemp(string(node.id),string(cur_val.out));
+    varout = addString(varout,temp);
+
+    return cur_val;
+};
+
+# user-defined fix point function that is used for analysis termination.
+fp := fixp(curr, prev: T_inout) : bool {
+    return len(difference(curr.in, prev.in)) == 0;
+};
+
+visit(tree, visitor {
+    before m: Method -> {
+        clear(genkill);
+        clear(init);
+        clear(live);
+        varin = "";
+        varout = "";
+
+        cfg := getcfg(m);
+
+        traverse(cfg, TraversalDirection.BACKWARD, TraversalKind.ITERATIVE, genkill);
+        traverse(cfg, TraversalDirection.BACKWARD, TraversalKind.ITERATIVE, init);
+        traverse(cfg, TraversalDirection.BACKWARD, TraversalKind.ITERATIVE, live, fp);
+        
+        out["cfg"] << dot(cfg);
+        
+    }
+    after m: Method -> {
+        out["varin"] << varin;
+        out["varout"] << varout;
+    }
+});

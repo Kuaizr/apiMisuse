@@ -1,0 +1,16 @@
+#count java CodeRepository
+p:Project = input;
+count: output sum of int;
+
+visit(p, visitor {
+    # only look at the latest snapshot
+    before node: CodeRepository -> {
+        # ignore projects with less than 100 revisions
+        if (len(node.revisions) < 100) stop;
+        
+        snapshot := getsnapshot(node, "SOURCE_JAVA_JLS");
+        foreach (i: int; def(snapshot[i]))
+			count << 1;
+		stop;
+    }
+});

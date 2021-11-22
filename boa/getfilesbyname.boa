@@ -1,0 +1,58 @@
+project: Project = input;
+out: output collection of string;
+
+# Intermediate types.
+file_name: string;
+c_counts: int;
+f_counts: int;
+committers: map[string] of bool;
+files: map[string] of bool;
+
+printNodes := traversal(n: CFGNode) {
+    if(n.name == "main"){
+        out << n.name;
+        out << file_name;
+        out << project.project_url;
+    }
+};
+
+# Traverses through the project graph.
+visit(project, visitor {
+	before proj: Project -> {
+		c_counts = 0;
+		f_counts = 0;
+		clear(committers);
+		clear(files);	
+	}
+	
+	before node: Revision -> {
+		# Prevents duplication amongst multiple commits.
+		if (!haskey(committers, node.committer.username)) {
+			committers[node.committer.username] = true;
+			c_counts = c_counts + 1;
+		}
+		
+		visit(node, visitor {
+			# Prevents duplication amongst multiple commits.
+			before fNode: ChangedFile -> {
+				if (!haskey(files, fNode.name)){
+					files[fNode.name] = true;
+					f_counts = f_counts + 1;
+				}	
+			}
+		});
+	}
+	
+	after pNode: Project -> {
+		# Now, we prepare the output.
+		if (c_counts > 10 and f_counts > 3){
+			visit(pNode, visitor {
+			    before node: ChangedFile -> file_name = string(node.name);
+            	before node: Method ->{
+            	    cfg := getcfg(node);
+            	    traverse(cfg, TraversalDirection.FORWARD, TraversalKind.DFS, printNodes);
+            	}
+            });
+		}
+	}
+});

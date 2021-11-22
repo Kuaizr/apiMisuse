@@ -1,0 +1,41 @@
+out[[, path, bRet, fileName, temp, file, i, is, fos]] = digraph {
+	{ rank = source; 0; }
+	{ rank = sink; 17; }
+	0[shape=ellipse,label="[0] ENTRY"]
+	1[shape=box,label="[1] boolean bRet = false"]
+	2[shape=diamond,label="[2] try {\l	InputStream is = context.getAssets().open(fileName);\l	File file = new File(path);\l	file.createNewFile();\l	FileOutputStream fos = new FileOutputStream(file);\l	byte[] temp = new byte[1024];\l	int i = 0;\l	while (i = is.read(temp) > 0) {\l		{\l			fos.write(temp, 0, i);\l		}\l	}\l	fos.close();\l	is.close();\l	bRet = true;\l}\lcatch (IOException e) {\l	e.printStackTrace();\l}\l"]
+	3[shape=box,label="[3] InputStream is = context.getAssets().open(fileName)"]
+	4[shape=box,label="[4] File file = new File(path)"]
+	5[shape=parallelogram,label="[5] file.createNewFile()"]
+	6[shape=box,label="[6] FileOutputStream fos = new FileOutputStream(file)"]
+	7[shape=box,label="[7] byte[] temp = new byte[1024]"]
+	8[shape=box,label="[8] int i = 0"]
+	9[shape=diamond,label="[9] i = is.read(temp) > 0"]
+	10[shape=parallelogram,label="[10] fos.write(temp, 0, i)"]
+	11[shape=parallelogram,label="[11] fos.close()"]
+	12[shape=parallelogram,label="[12] is.close()"]
+	13[shape=box,label="[13] bRet = true"]
+	14[shape=box,label="[14] catch (IOException e) {\l	e.printStackTrace();\l}\l"]
+	15[shape=parallelogram,label="[15] e.printStackTrace()"]
+	16[shape=box,label="[16] return bRet;"]
+	17[shape=ellipse,label="[17] EXIT"]
+	0 -> 1
+	1 -> 2
+	2 -> 3 [label="T"]
+	2 -> 14 [label="F"]
+	3 -> 4
+	4 -> 5
+	5 -> 6
+	6 -> 7
+	7 -> 8
+	8 -> 9
+	9 -> 10 [label="T"]
+	9 -> 11
+	10 -> 9 [label="B"]
+	11 -> 12
+	12 -> 13
+	13 -> 16
+	14 -> 15
+	15 -> 16
+	16 -> 17
+}

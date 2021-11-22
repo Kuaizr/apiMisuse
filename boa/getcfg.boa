@@ -1,0 +1,63 @@
+#在每个before project里面计算贡献者个数和提交文件的次数，在after project里面以贡献者个数和提交文件次数作为条件筛选优质项目的标准
+#进入项目后对每个方法生成cfg，遍历每个cfg，如果含有createNewFile这个方法名就输出
+
+project: Project = input;
+out: output collection of string;
+
+# Intermediate types.
+dotout : string;
+file_name: string;
+c_counts: int;
+f_counts: int;
+committers: map[string] of bool;
+files: map[string] of bool;
+
+printNodes := traversal(n: CFGNode) {
+    if(n.name == "createNewFile"){
+        out << dotout;
+};
+
+# Traverses through the project graph.
+visit(project, visitor {
+	before proj: Project -> {
+		#计算贡献者个数
+		c_counts = 0;
+		#计算提交文件的次数
+		f_counts = 0;
+		clear(committers);
+		clear(files);	
+	}
+	
+	before node: Revision -> {
+		# Prevents duplication amongst multiple commits.
+		if (!haskey(committers, node.committer.username)) {
+			committers[node.committer.username] = true;
+			c_counts = c_counts + 1;
+		}
+		
+		visit(node, visitor {
+			# Prevents duplication amongst multiple commits.
+			before fNode: ChangedFile -> {
+				if (!haskey(files, fNode.name)){
+					files[fNode.name] = true;
+					f_counts = f_counts + 1;
+				}	
+			}
+		});
+	}
+	
+	after pNode: Project -> {
+		# Now, we prepare the output.
+		if (c_counts > 10 and f_counts > 3){
+			visit(pNode, visitor {
+			    before node: ChangedFile -> file_name = string(node.name);
+            			    before node: Method ->{
+            	    			cfg := getcfg(node);
+            	    			dotout = dot(cfg);
+            	    			traverse(cfg, TraversalDirection.FORWARD, TraversalKind.DFS, printNodes);
+            			}
+
+            		;
+		}
+	}
+});
